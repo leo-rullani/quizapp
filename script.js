@@ -62,7 +62,10 @@ let questions = [
   },
 ];
 
+let rightQuestions = 0;
 let currentQuestion = 0; // Index of the current question, starting at 0
+let AUDIO_SUCESS = new Audio("./quizapp_folder/audio/success.mp3");
+let AUDIO_FAIL = new Audio("./quizapp_folder/audio/fail.mp3");
 
 function init() {
   // Sets the total number of questions in the HTML element with the ID 'all-questions'
@@ -73,10 +76,42 @@ function init() {
 }
 
 function showQuestion() {
+  if (gameIsOver()) {
+    showEndScreen();
+  } else {
+    updateProgressBar();
+    updateToNextQuestion();
+  }
+}
+
+function gameIsOver() {
+  return currentQuestion >= questions.length;
+}
+
+function showEndScreen() {
+    console.log("Endscreen is displayed");
+    document.getElementById("endScreen").style = ""; // Show end screen
+    document.getElementById("questionBodyStart").style = "display: none"; // Hide question body
+  
+    document.getElementById("amount-of-questions").innerHTML = questions.length;
+    document.getElementById("amount-of-rightquestions").innerHTML = rightQuestions;
+  
+    // Update the header image
+    document.getElementById("header-image").src = "./quizapp_folder/img/sfl_trophy.png";
+  }
+
+function updateProgressBar() {
+  let percent = (currentQuestion + 1) / questions.length;
+  percent = Math.round(percent * 100);
+
+  document.getElementById("progress-bar").innerHTML = `${percent}%`;
+  document.getElementById("progress-bar").style = `width: ${percent}%`;
+}
+
+function updateToNextQuestion() {
   let question = questions[currentQuestion]; // Retrieves the current question from the array based on the 'currentQuestion' index
 
-  console.log(question); // Debug: Logs the current question and its answers to the console
-
+  document.getElementById("question-number").innerHTML = currentQuestion + 1;
   // Updates the question text in the HTML element with the ID 'questiontext'
   document.getElementById("questiontext").innerHTML = question["question"];
 
@@ -88,25 +123,55 @@ function showQuestion() {
 }
 
 function answer(selection) {
-  let question = questions[currentQuestion]; // Retrieves the current question from the array
-  console.log("Selected Answer is", selection); // Debug: Logs the selected answer (e.g., 'answer_1') to the console
-
-  // Extracts the number of the selected answer (e.g., '1' from 'answer_1')
-  let selectedQuestionNumber = selection.slice(-1);
-  console.log("selectedQuestionNumber is", selectedQuestionNumber); // Debug: Logs the extracted answer number to the console
-  console.log("Current question is", question["right_answer"]); // Debug: Logs the correct answer for the current question
-
-  let idOfRightAnswer = `answer_${question["right_answer"]}`;
-
-  // Checks if the selected answer matches the correct answer
-  if (selectedQuestionNumber == question["right_answer"]) {
-    console.log("Correct Answer!"); // Output if the answer is correct
-    document.getElementById(selection).parentNode.classList.add("bg-success");
-  } else {
-    document.getElementById(selection).parentNode.classList.add("bg-danger");
-    document
-      .getElementById(idOfRightAnswer)
-      .parentNode.classList.add("bg-success");
+    let question = questions[currentQuestion]; // Retrieves the current question from the array
+  
+    // Extracts the number of the selected answer (e.g., '1' from 'answer_1')
+    let selectedQuestionNumber = selection.slice(-1);
+    let idOfRightAnswer = `answer_${question["right_answer"]}`;
+  
+    // Checks if the selected answer matches the correct answer
+    if (righAnswerSelected(selectedQuestionNumber, question)) {
+      document.getElementById(selection).parentNode.classList.add("bg-success"); // Add green background
+      AUDIO_SUCESS.play(); // Play success sound
+      rightQuestions++;
+    } else {
+      document.getElementById(selection).parentNode.classList.add("bg-danger"); // Add red background
+      document
+        .getElementById(idOfRightAnswer)
+        .parentNode.classList.add("bg-success"); // Highlight correct answer
+      AUDIO_FAIL.play(); // Play fail sound
+    }
+    document.getElementById("next-button").disabled = false; // Enable next button
   }
-  document.getElementById("next-button").disabled = false;
+  
+  function righAnswerSelected(selectedQuestionNumber, question) {
+    return selectedQuestionNumber == question["right_answer"];
+  }
+  
+
+function nextQuestion() {
+  currentQuestion++; // z.B. von 0 auf 1
+  document.getElementById("next-button").disabled = true;
+  resetAnswerButtons();
+  showQuestion();
+}
+
+function resetAnswerButtons() {
+  document.getElementById("answer_1").parentNode.classList.remove("bg-danger");
+  document.getElementById("answer_1").parentNode.classList.remove("bg-success");
+  document.getElementById("answer_2").parentNode.classList.remove("bg-danger");
+  document.getElementById("answer_2").parentNode.classList.remove("bg-success");
+  document.getElementById("answer_3").parentNode.classList.remove("bg-danger");
+  document.getElementById("answer_3").parentNode.classList.remove("bg-success");
+  document.getElementById("answer_4").parentNode.classList.remove("bg-danger");
+  document.getElementById("answer_4").parentNode.classList.remove("bg-success");
+}
+
+function restartGame() {
+  document.getElementById("header-image").src ="./quizapp_folder/img/sfl_logo.png";
+  document.getElementById("questionBodyStart").style = ""; //questionBodyStart wieder anzeigen
+  document.getElementById("endScreen").style = "display: none"; //endScreen ausblenden
+  rightQuestions = 0;
+  currentQuestion = 0;
+  init();
 }

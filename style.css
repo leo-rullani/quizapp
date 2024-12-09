@@ -30,3 +30,106 @@ body {
 .bg-success, .bg-danger {
     color: white !important;
 }
+
+.width-100 {
+    width: 100%;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.final-headline {
+    font-size: 32px;
+    margin-bottom: 38px;
+}
+
+.button-row {
+    display: flex; 
+    justify-content: center;
+    margin-top: 24px;
+}
+.progress-bar-dark {
+    background-color: #343a40 !important; /* Dunkles Grau (btn-dark Farbe) */
+}
+
+.progress {
+    border-radius: initial !important;
+}
+
+.navbar {
+    width: 100vw; /* Setzt die Navbar auf die volle Breite */
+    background-color: rgba(var(--bs-tertiary-bg-rgb), var(--bs-bg-opacity)); /* Dynamische Bootstrap-Farbe */
+    margin: 0; /* Entfernt alle Außenabstände */
+    padding: 0.5rem 1rem; /* Optional: Innenabstand */
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 422px) {
+    /* Allgemeine Skalierung */
+    body {
+        transform: scale(0.9); /* Verkleinert alle Elemente */
+        transform-origin: top;
+        margin: 0;
+    }
+
+    /* Navbar */
+    .navbar {
+        width: 100vw; /* Stellt sicher, dass die Navbar die gesamte Bildschirmbreite einnimmt */
+        margin: 0; /* Entfernt jegliche Außenabstände */
+        padding: 0.5rem; /* Weniger Padding auf kleinen Geräten */
+        background-color: rgba(var(--bs-tertiary-bg-rgb), var(--bs-bg-opacity)); /* Hintergrundfarbe dynamisch */
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Optional: dünne Linie unten */
+    }
+
+    /* Karten kleiner machen */
+    .quiz-card {
+        width: 90%; /* Dynamisch für kleinere Bildschirme */
+        margin: 1rem auto; /* Zentriert und Abstände oben/unten */
+        padding: 0.8rem; /* Innenabstand reduzieren */
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Dezenter Schatten */
+    }
+
+    /* Karten-Title-Schriftgröße (Frage) */
+    .card-title {
+        font-size: 14px; /* Verkleinert die Schrift der Frage */
+        line-height: 1.4; /* Erhöht Lesbarkeit bei mehreren Zeilen */
+        margin-bottom: 0.8rem; /* Weniger Abstand nach unten */
+    }
+
+    /* Schriftgrößen verkleinern */
+    .final-headline {
+        font-size: 24px; /* Statt 32px */
+        margin-bottom: 24px; /* Weniger Abstand unten */
+    }
+
+    .question-footer span {
+        font-size: 12px; /* Reduzierte Schriftgröße */
+    }
+
+    /* Antwortkarten */
+    .quiz-answer-card {
+        font-size: 12px; /* Kleinere Schriftgröße */
+        padding: 10px 8px; /* Kompaktere Antwortkarten */
+        margin-bottom: 12px; /* Reduzierter Abstand */
+        border-radius: 6px; /* Leichte Abrundung */
+    }
+
+    /* Buttons */
+    .btn {
+        font-size: 12px; /* Kleinere Schriftgröße für Buttons */
+        padding: 6px 10px; /* Kleinere Polsterung */
+    }
+
+    /* Fortschrittsanzeige */
+    .progress {
+        height: 6px; /* Dünnere Leiste */
+        border-radius: 4px; /* Leichte Abrundung */
+        margin: 0.5rem 0; /* Reduzierter Abstand */
+    }
+
+    .progress-bar {
+        font-size: 11px; /* Kleinere Schrift in der Fortschrittsanzeige */
+        line-height: 6px; /* Zentriert den Text */
+    }
+}
